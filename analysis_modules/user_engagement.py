@@ -74,8 +74,6 @@ db_params = {
 }
 # Create an instance of UserEngagementAnalysis with the actual database parameters
 engagement_analysis = UserEngagementAnalysis(db_params)
-
-
 engagement_analysis.perform_analysis()
 
 
