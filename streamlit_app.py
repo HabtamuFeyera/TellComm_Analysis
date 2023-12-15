@@ -58,8 +58,11 @@ else:
             data = datasets.load_iris()
         elif my_dataset == "Breast Cancer":
             data = datasets.load_breast_cancer()
-        else:
+        elif my_dataset == "Wine Dataset":
             data = datasets.load_wine()
+        else:
+            st.warning("Please select a valid dataset.")
+            st.stop()
 
         x = data.data
         y = data.target
