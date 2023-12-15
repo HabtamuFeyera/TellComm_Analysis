@@ -1,10 +1,10 @@
 import streamlit as st
 import pandas as pd
 from sqlalchemy import create_engine
-from mynote.user_overview import UserOverviewAnalysis
-from mynote.user_engagement import UserEngagementAnalysis
-from mynote.user_experience import UserExperienceAnalysis
-from mynote.user_satisfaction import UserSatisfactionAnalysis
+from analysis_modules.user_overview import UserOverviewAnalysis
+from analysis_modules.user_engagement import UserEngagementAnalysis
+from analysis_modules.user_experience import UserExperienceAnalysis
+from analysis_modules.user_satisfaction import UserSatisfactionAnalysis
 
 # Database connection parameters
 db_params = {
@@ -29,7 +29,6 @@ selected_analysis = st.sidebar.selectbox("Select Analysis", ["User Overview", "U
 
 # Perform the selected analysis
 if selected_analysis == "User Overview":
-    # Assuming your analysis class accepts a DataFrame as an argument
     analysis = UserOverviewAnalysis(mydata)
 elif selected_analysis == "User Engagement":
     analysis = UserEngagementAnalysis(mydata)
