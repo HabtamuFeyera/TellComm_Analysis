@@ -85,4 +85,4 @@ user_analysis = UserOverviewAnalysis(mydata)
 cleaned_data = user_analysis.clean_and_preprocess()
 aggregated_data = user_analysis.aggregate_user_behaviour()
 top_10_handsets = user_analysis.top_10_handsets()
-
+print(top_10_handsets)
