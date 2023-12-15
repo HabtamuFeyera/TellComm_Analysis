@@ -1,4 +1,5 @@
 import streamlit as st
+import numpy as np
 from sklearn import datasets
 
 st.title('wel come to streamlit')
@@ -25,5 +26,6 @@ def get_dataset(my_dataset):
     return x,y
 
 x,y = get_dataset(my_dataset)
-
+st.write("shape of dataset", x.shape)
+st.write("number of classs", len(np.unique(y)))
 
