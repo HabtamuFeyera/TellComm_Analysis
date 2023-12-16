@@ -1,5 +1,7 @@
 import pandas as pd
 import seaborn as sns
+import numpy as np
+import psycopg2
 import matplotlib.pyplot as plt
 from sqlalchemy import create_engine
 
@@ -54,7 +56,7 @@ class UserOverviewAnalysis:
 
         return combined_top_handsets
 
-    def data_analysis(self):
+    def perform_analysis(self):
         applications = ['Social Media DL (Bytes)', 'Gaming UL (Bytes)']
         plt.figure(figsize=(12, 8))
         for app in applications:
