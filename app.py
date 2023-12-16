@@ -39,5 +39,5 @@ elif selected_analysis == "User Satisfaction":
 
 # Display the analysis result
 st.title(f"{selected_analysis} Analysis")
-result = analysis.perform_analysis()
+result = analysis.application_columns()
 st.write(result)
