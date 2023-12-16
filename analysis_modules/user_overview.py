@@ -77,16 +77,16 @@ class UserOverviewAnalysis:
         return combined_top_handsets
 
     def perform_analysis(self):
-        applications = ['Social Media DL (Bytes)', 'Gaming UL (Bytes)']
-        plt.figure(figsize=(12, 8))
-        for app in applications:
-            sns.histplot(self.mydata[self.mydata[app] > 0][app], label=app, kde=True)
-
-        plt.title('Distribution of Session Durations for Each Application')
-        plt.xlabel('Session Duration')
-        plt.ylabel('Frequency')
-        plt.legend()
-        plt.show()
+        # Select numeric variables for analysis
+        numeric_variables = mydata.select_dtypes(include='number')
+        # Plot histograms for each numeric variable
+        for col in numeric_variables.columns:
+            plt.figure(figsize=(8, 5))
+            sns.histplot(mydata[col], bins=20, kde=True, color='skyblue')
+            plt.title(f'Histogram of {col}')
+            plt.xlabel(col)
+            plt.ylabel('Frequency')
+            plt.show()
 
 # Database connection parameters
 db_params = {
@@ -104,4 +104,4 @@ mydata = pd.read_sql_query(sql_query, engine)
 
 
 user_analysis = UserOverviewAnalysis(mydata)
-user_analysis.application_columns()
+user_analysis.perform_analysis()
