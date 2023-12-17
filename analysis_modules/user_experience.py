@@ -59,13 +59,13 @@ db_params = {
 }
 
 # Create an instance of UserExperienceAnalysis with the actual database parameters
-user_experience_analysis = UserExperienceAnalysis(db_params)
+#user_experience_analysis = UserExperienceAnalysis(db_params)
 
 # Perform user experience analysis
-user_experience_metrics = user_experience_analysis.perform_user_experience_analysis()
+#user_experience_metrics = user_experience_analysis.perform_user_experience_analysis()
 
 # Display the aggregated metrics
-print(user_experience_metrics)
+#print(user_experience_metrics)
 
 
 

@@ -111,15 +111,15 @@ db_params = {
 }
 
 # Create an instance of UserSatisfactionAnalysis with the actual database parameters
-satisfaction_analysis = UserSatisfactionAnalysis(db_params)
+#satisfaction_analysis = UserSatisfactionAnalysis(db_params)
 
 # Execute the analysis
-top_satisfied, cluster_aggregates = satisfaction_analysis.perform_user_satisfaction_analysis()
+#top_satisfied, cluster_aggregates = satisfaction_analysis.perform_user_satisfaction_analysis()
 
 # Display the results
-print("Top 10 Satisfied Customers:")
-print(top_satisfied)
+#print("Top 10 Satisfied Customers:")
+#print(top_satisfied)
 
-print("\nCluster Aggregates:")
-print(cluster_aggregates)
+#print("\nCluster Aggregates:")
+#print(cluster_aggregates)
 

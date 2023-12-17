@@ -18,10 +18,10 @@ class UserOverviewAnalysis:
         cleaned_data.loc[:, numeric_columns] = cleaned_data.loc[:, numeric_columns].fillna(cleaned_data[numeric_columns].mean())
         return cleaned_data
 
-    def visualize_results(self):
-        sns.set_theme(style="whitegrid")
-        plt.figure(figsize=(10, 6))
-        plt.show()
+    #def visualize_results(self):
+        #sns.set_theme(style="whitegrid")
+        #plt.figure(figsize=(10, 6))
+        #plt.show()
 
     def aggregate_user_behaviour(self):
         # Assuming ''Bearer Id'' is the correct identifier for aggregation
@@ -62,9 +62,12 @@ class UserOverviewAnalysis:
 
     def top_5_handsets_per_manufacturer(self):
         cleaned_data = self.clean_and_preprocess()  
-        cleaned_data['IMEI'] = cleaned_data['IMEI'].astype(str)
-        cleaned_data['Manufacturer'] = cleaned_data['IMEI'].str[:8]
-        top_manufacturers = cleaned_data['Manufacturer'].value_counts().nlargest(3).index
+        cleaned_data.loc[:, 'Start'] = pd.to_datetime(cleaned_data['Start'], errors='coerce')
+        cleaned_data.loc[:, 'End'] = pd.to_datetime(cleaned_data['End'], errors='coerce')
+        cleaned_data.loc[:, 'IMEI'] = cleaned_data['IMEI'].astype(str)
+        cleaned_data.loc[:, 'Manufacturer'] = cleaned_data['IMEI'].str[:8]
+        top_manufacturers = cleaned_data.loc[:, 'Manufacturer'].value_counts().nlargest(3).index
+
 
         combined_top_handsets = pd.DataFrame()
 
@@ -76,17 +79,17 @@ class UserOverviewAnalysis:
 
         return combined_top_handsets
 
-    def perform_analysis(self):
+    #def perform_analysis(self):
         # Select numeric variables for analysis
-        numeric_variables = mydata.select_dtypes(include='number')
+        #numeric_variables = mydata.select_dtypes(include='number')
         # Plot histograms for each numeric variable
-        for col in numeric_variables.columns:
-            plt.figure(figsize=(8, 5))
-            sns.histplot(mydata[col], bins=20, kde=True, color='skyblue')
-            plt.title(f'Histogram of {col}')
-            plt.xlabel(col)
-            plt.ylabel('Frequency')
-            plt.show()
+        #for col in numeric_variables.columns:
+           # plt.figure(figsize=(8, 5))
+            #sns.histplot(mydata[col], bins=20, kde=True, color='skyblue')
+            #plt.title(f'Histogram of {col}')
+            #plt.xlabel(col)
+            #plt.ylabel('Frequency')
+            #plt.show()
 
 # Database connection parameters
 db_params = {
@@ -104,4 +107,4 @@ mydata = pd.read_sql_query(sql_query, engine)
 
 
 user_analysis = UserOverviewAnalysis(mydata)
-user_analysis.perform_analysis()
+#user_analysis.perform_analysis()

@@ -9,9 +9,6 @@ class UserEngagementAnalysis:
         self.mydata = self.load_data_from_database()
 
     def load_data_from_database(self):
-        """
-        Load data from the PostgreSQL database into a Pandas DataFrame.
-        """
         engine = create_engine(f'postgresql+psycopg2://{self.db_params["user"]}:{self.db_params["password"]}@{self.db_params["host"]}:{self.db_params["port"]}/{self.db_params["dbname"]}')
         sql_query = "SELECT * FROM xdr_data;"
         mydata = pd.read_sql_query(sql_query, engine)
@@ -73,8 +70,8 @@ db_params = {
     'port': '5432'
 }
 # Create an instance of UserEngagementAnalysis with the actual database parameters
-engagement_analysis = UserEngagementAnalysis(db_params)
-engagement_analysis.perform_analysis()
+#engagement_analysis = UserEngagementAnalysis(db_params)
+#engagement_analysis.perform_analysis()
 
 
 
