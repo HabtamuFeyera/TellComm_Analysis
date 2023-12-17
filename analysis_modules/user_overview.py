@@ -28,6 +28,11 @@ class UserOverviewAnalysis:
         # Exclude datetime column from aggregation
         aggregated_data = self.mydata.drop(columns=['datetime_column']).groupby('Bearer Id').sum()
         return aggregated_data
+    
+    def sessions_per_user(self):
+        sessions_user = mydata['MSISDN/Number'].value_counts()
+        return sessions_user
+    
     def user_device_mapping(self):
         # Group by user identifiers and aggregate to get associated devices
         user_mapping = mydata.groupby(['IMSI', 'MSISDN/Number'])['IMEI'].unique()
