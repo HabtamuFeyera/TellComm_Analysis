@@ -24,8 +24,9 @@ class UserOverviewAnalysis:
         #plt.show()
 
     def aggregate_user_behaviour(self):
-        # Assuming ''Bearer Id'' is the correct identifier for aggregation
-        aggregated_data = self.mydata.groupby('Bearer Id').sum()  
+        # Assuming 'Bearer Id' is the correct identifier for aggregation
+        # Exclude datetime column from aggregation
+        aggregated_data = self.mydata.drop(columns=['datetime_column']).groupby('Bearer Id').sum()
         return aggregated_data
     def user_device_mapping(self):
         # Group by user identifiers and aggregate to get associated devices

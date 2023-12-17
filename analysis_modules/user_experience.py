@@ -1,4 +1,8 @@
 import pandas as pd
+import seaborn as sns
+import numpy as np
+import psycopg2
+import matplotlib.pyplot as plt
 from sqlalchemy import create_engine
 from sklearn.cluster import KMeans
 
@@ -58,8 +62,7 @@ db_params = {
     'port': '5432'
 }
 
-# Create an instance of UserExperienceAnalysis with the actual database parameters
-#user_experience_analysis = UserExperienceAnalysis(db_params)
+#user_experience_analysis = UserExperienceAnalysis(mydata)
 
 # Perform user experience analysis
 #user_experience_metrics = user_experience_analysis.perform_user_experience_analysis()
