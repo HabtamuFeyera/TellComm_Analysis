@@ -1,5 +1,7 @@
 import pandas as pd
 import seaborn as sns
+import numpy as np
+import psycopg2
 import matplotlib.pyplot as plt
 from sqlalchemy import create_engine
 
@@ -22,24 +24,44 @@ class UserOverviewAnalysis:
         plt.show()
 
     def aggregate_user_behaviour(self):
-        # Assuming 'UserID' is the correct identifier for aggregation
-        user_device_mapping = self.mydata.groupby(['IMSI', 'MSISDN/Number'])['IMEI'].unique()
+        # Assuming ''Bearer Id'' is the correct identifier for aggregation
         aggregated_data = self.mydata.groupby('Bearer Id').sum()  
         return aggregated_data
+    def user_device_mapping(self):
+        # Group by user identifiers and aggregate to get associated devices
+        user_mapping = mydata.groupby(['IMSI', 'MSISDN/Number'])['IMEI'].unique()
+        return user_mapping
+    def top_10_user(self):
+        # Assuming 'Total UL (Bytes)' is the column representing total upload data
+        top_users = mydata.nlargest(10, 'Total UL (Bytes)')
+        return top_users
+    
+    def application_columns(self):
+        # Assuming columns like 'Social Media DL (Bytes)', 'Gaming UL (Bytes)' represent application data
+        app_columns = ['Social Media DL (Bytes)', 'Gaming UL (Bytes)']
+        app_usage = mydata[app_columns].sum()
+        return app_usage
+    
+    def network_tech_distribution(self):
+        # Assuming 'Bearer Id' represents network technology
+        network_distribution = mydata['Bearer Id'].value_counts()
+        return network_distribution
 
     def top_10_handsets(self):
         top_10_handsets = self.mydata['IMEI'].value_counts().nlargest(10)
         return top_10_handsets
 
     def top_3_manufacturers(self):
-        cleaned_data = self.clean_and_preprocess()  # Use cleaned_data for consistency
-        cleaned_data['IMEI'] = cleaned_data['IMEI'].astype(str)
-        cleaned_data['Manufacturer'] = cleaned_data['IMEI'].str[:8]
-        top_3_manufacturers = cleaned_data['Manufacturer'].value_counts().nlargest(3)
-        return top_3_manufacturers
+       # Convert 'IMEI' column to strings
+       mydata['IMEI'] = mydata['IMEI'].astype(str)
+       # Extract the manufacturer information (e.g., first 8 characters of IMEI)
+       mydata['Manufacturer'] = mydata['IMEI'].str[:8]
+       # Identify the top 3 handset manufacturers
+       top_manufacturer = mydata['Manufacturer'].value_counts().nlargest(3)
+       return top_manufacturer
 
     def top_5_handsets_per_manufacturer(self):
-        cleaned_data = self.clean_and_preprocess()  # Use cleaned_data for consistency
+        cleaned_data = self.clean_and_preprocess()  
         cleaned_data['IMEI'] = cleaned_data['IMEI'].astype(str)
         cleaned_data['Manufacturer'] = cleaned_data['IMEI'].str[:8]
         top_manufacturers = cleaned_data['Manufacturer'].value_counts().nlargest(3).index
@@ -54,17 +76,17 @@ class UserOverviewAnalysis:
 
         return combined_top_handsets
 
-    def data_analysis(self):
-        applications = ['Social Media DL (Bytes)', 'Gaming UL (Bytes)']
-        plt.figure(figsize=(12, 8))
-        for app in applications:
-            sns.histplot(self.mydata[self.mydata[app] > 0][app], label=app, kde=True)
-
-        plt.title('Distribution of Session Durations for Each Application')
-        plt.xlabel('Session Duration')
-        plt.ylabel('Frequency')
-        plt.legend()
-        plt.show()
+    def perform_analysis(self):
+        # Select numeric variables for analysis
+        numeric_variables = mydata.select_dtypes(include='number')
+        # Plot histograms for each numeric variable
+        for col in numeric_variables.columns:
+            plt.figure(figsize=(8, 5))
+            sns.histplot(mydata[col], bins=20, kde=True, color='skyblue')
+            plt.title(f'Histogram of {col}')
+            plt.xlabel(col)
+            plt.ylabel('Frequency')
+            plt.show()
 
 # Database connection parameters
 db_params = {
@@ -82,7 +104,4 @@ mydata = pd.read_sql_query(sql_query, engine)
 
 
 user_analysis = UserOverviewAnalysis(mydata)
-cleaned_data = user_analysis.clean_and_preprocess()
-aggregated_data = user_analysis.aggregate_user_behaviour()
-top_10_handsets = user_analysis.top_10_handsets()
-print(top_10_handsets)
+user_analysis.perform_analysis()
