@@ -33,6 +33,17 @@ class UserOverviewAnalysis:
         sessions_user = mydata['MSISDN/Number'].value_counts()
         return sessions_user
     
+    def total_data_per_user(self):
+        total_per_user= mydata.groupby('MSISDN/Number').agg({
+    'Total DL (Bytes)': 'sum',
+    'Total UL (Bytes)': 'sum'
+})
+        return total_per_user
+    
+    def top_handsets_by(self):
+        top_by= self.mydata['Handset Type'].value_counts().head(10)
+        return top_by
+    
     def user_device_mapping(self):
         # Group by user identifiers and aggregate to get associated devices
         user_mapping = mydata.groupby(['IMSI', 'MSISDN/Number'])['IMEI'].unique()
@@ -54,16 +65,11 @@ class UserOverviewAnalysis:
         return network_distribution
 
     def top_10_handsets(self):
-        top_10_handsets = self.mydata['IMEI'].value_counts().nlargest(10)
+        top_10_handsets = self.mydata['Handset Type'].value_counts().head(10)
         return top_10_handsets
 
     def top_3_manufacturers(self):
-       # Convert 'IMEI' column to strings
-       mydata['IMEI'] = mydata['IMEI'].astype(str)
-       # Extract the manufacturer information (e.g., first 8 characters of IMEI)
-       mydata['Manufacturer'] = mydata['IMEI'].str[:8]
-       # Identify the top 3 handset manufacturers
-       top_manufacturer = mydata['Manufacturer'].value_counts().nlargest(3)
+       top_manufacturer=self.mydata['Handset Manufacturer'].value_counts().head(3)
        return top_manufacturer
 
     def top_5_handsets_per_manufacturer(self):
